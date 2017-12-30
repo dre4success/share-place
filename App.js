@@ -16,7 +16,14 @@ export default class App extends Component {
     this.setState(prevState => ({
       places: [
         ...prevState.places,
-        { key: Math.random(), name: placeName, image: placeImage }
+        {
+          key: Math.random(),
+          name: placeName,
+          image: {
+            uri:
+              'https://c1.staticflickr.com/5/4096/4744241983_34023bf303_b.jpg'
+          }
+        }
       ]
     }));
   };
