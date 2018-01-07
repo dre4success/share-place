@@ -1,5 +1,14 @@
 import React from 'react';
-import { Modal, View, Image, Text, Button, StyleSheet } from 'react-native';
+import {
+  Modal,
+  View,
+  Image,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const placeDetail = props => {
   let modalContent = null;
@@ -7,20 +16,25 @@ const placeDetail = props => {
   if (props.selectedPlace) {
     modalContent = (
       <View>
-        <Image
-          source={props.selectedPlace.image}
-          style={styles.placeImage}
-        />
+        <Image source={props.selectedPlace.image} style={styles.placeImage} />
         <Text style={styles.placeName}>{props.selectedPlace.name}</Text>
       </View>
     );
   }
   return (
-    <Modal onRequestClose={props.onModalClosed} visible={props.selectedPlace !== null} animationType="slide">
+    <Modal
+      onRequestClose={props.onModalClosed}
+      visible={props.selectedPlace !== null}
+      animationType="slide"
+    >
       <View style={styles.modalContainer}>
         {modalContent}
         <View>
-          <Button title="delete" color="red" onPress={props.onItemDeleted} />
+          <TouchableOpacity onPress={props.onItemDeleted}>
+            <View style={styles.deleteButton}>
+              <Icon size={30} name="md-trash" />
+            </View>
+          </TouchableOpacity>
           <Button title="close" onPress={props.onModalClosed} />
         </View>
       </View>
@@ -40,6 +54,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 28
+  },
+  deleteButton: {
+    alignItems: 'center'
   }
 });
 
