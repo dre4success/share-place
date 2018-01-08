@@ -10,6 +10,7 @@ export const startTabs = async () => {
 
   Navigation.startTabBasedApp({
     tabs: [
+      
       {
         screen: 'awesome-places.SharePlaceScreen',
         label: 'Share Place',
