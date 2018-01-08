@@ -14,10 +14,13 @@ import { addPlace } from '../store/actions/index';
 import PlaceInput from '../components/PlaceInput';
 import { MainText } from '../components/UI/MainText';
 import { HeadingText } from '../components/UI/HeadingText';
-import PickImage from '../components/Pick/PickImage'; 
-import PickLocation from '../components/Pick/PickLocation'; 
+import PickImage from '../components/Pick/PickImage';
+import PickLocation from '../components/Pick/PickLocation';
 
 class SharePlaceScreen extends Component {
+  state = {
+    placeName: ''
+  };
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -33,8 +36,14 @@ class SharePlaceScreen extends Component {
     }
   };
 
-  placeAddedHanlder = placeName => {
-    this.props.onAddPlace(placeName);
+  placeNameChangeHandler = val => {
+    this.setState(() => ({ placeName: val }));
+  };
+
+  placeAddedHanlder = () => {
+    if (this.state.placeName.trim() !== '') {
+      this.props.onAddPlace(this.state.placeName);
+    }
   };
 
   render() {
@@ -45,10 +54,13 @@ class SharePlaceScreen extends Component {
             <HeadingText>Share a place with us!</HeadingText>
           </MainText>
           <PickImage />
-          <PickLocation /> 
-          <PlaceInput />
+          <PickLocation />
+          <PlaceInput
+            placeName={this.state.placeName}
+            onChangeText={this.placeNameChangeHandler}
+          />
           <View style={styles.button}>
-            <Button title="Share the Place!" />
+            <Button title="Share the Place!" onPress={this.placeAddedHanlder} />
           </View>
         </View>
       </ScrollView>
