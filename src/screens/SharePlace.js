@@ -6,7 +6,8 @@ import {
   Button,
   StyleSheet,
   ScrollView,
-  Image
+  Image,
+  KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -54,7 +55,7 @@ class SharePlaceScreen extends Component {
   render() {
     return (
       <ScrollView>
-        <View style={styles.container}>
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
           <MainText>
             <HeadingText>Share a place with us!</HeadingText>
           </MainText>
@@ -67,7 +68,7 @@ class SharePlaceScreen extends Component {
           <View style={styles.button}>
             <Button title="Share the Place!" onPress={this.placeAddedHanlder} />
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     );
   }
