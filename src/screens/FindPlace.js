@@ -91,10 +91,12 @@ class FindPlaceScreen extends Component {
 
     if (this.state.placesLoaded) {
       content = (
-        <PlaceList
-          places={this.props.places}
-          onItemSelected={this.itemSelectedHandler}
-        />
+        <Animated.View style={{ opacity: this.state.placesAnim }}>
+          <PlaceList
+            places={this.props.places}
+            onItemSelected={this.itemSelectedHandler}
+          />
+        </Animated.View>
       );
     }
     return (
