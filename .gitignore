@@ -12,6 +12,7 @@
 
 /functions/node_modules
 /functions/places-awesome.json
+/src/store/actions/api-key.js
 
 README.md
 .flowconfig
