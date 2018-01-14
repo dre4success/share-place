@@ -22,11 +22,6 @@ export const tryAuth = (authData, authMode) => dispatch => {
       'Content-Type': 'application/json'
     }
   })
-    .catch(err => {
-      console.log(err);
-      alert('Authentication failed, please try again');
-      dispatch(uiStopLoading());
-    })
     .then(res => res.json())
     .then(parsedRes => {
       dispatch(uiStopLoading());
@@ -34,7 +29,7 @@ export const tryAuth = (authData, authMode) => dispatch => {
         if (parsedRes.error.message === 'EMAIL_EXISTS') {
           alert('Email already in use');
         } else {
-          alert('Authentication failed, please try again');
+          alert('Authentication failed, retry');
         }
       } else {
         dispatch(
@@ -46,6 +41,11 @@ export const tryAuth = (authData, authMode) => dispatch => {
         );
         startTabs();
       }
+    })
+    .catch(err => {
+      console.log(err);
+      alert('Authentication failed, please try again');
+      dispatch(uiStopLoading());
     });
 };
 

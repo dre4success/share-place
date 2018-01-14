@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         token: null,
-        expiryDate: action.null
+        expiryDate: null
       };
 
     default:
