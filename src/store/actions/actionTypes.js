@@ -7,3 +7,4 @@ export const UI_START_LOADING = 'UI_START_LOADING';
 export const UI_STOP_LOADING = 'UI_STOP_LOADING';
 
 export const AUTH_SET_TOKEN = 'auth_set_token';
+export const AUTH_REMOVE_TOKEN = 'auth_remove_token'

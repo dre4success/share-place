@@ -1,5 +1,9 @@
-import { Navigation } from 'react-native-navigation';
-import { Provider } from 'react-redux';
+import {
+  Navigation
+} from 'react-native-navigation';
+import {
+  Provider
+} from 'react-redux';
 import AuthScreen from './src/screens/Auth';
 
 import SharePlaceScreen from './src/screens/SharePlace';
@@ -37,11 +41,13 @@ Navigation.registerComponent(
 );
 Navigation.registerComponent(
   'awesome-places.SideDrawerScreen',
-  () => SideDrawerScreen
+  () => SideDrawerScreen,
+  store,
+  Provider
 );
 
 // Start App
-Navigation.startSingleScreenApp({
+export default () => Navigation.startSingleScreenApp({
   screen: {
     screen: 'awesome-places.AuthScreen',
     title: 'Login'
