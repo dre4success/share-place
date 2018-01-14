@@ -50,19 +50,21 @@ export const tryAuth = (authData, authMode) => dispatch => {
 };
 
 export const authStoreToken = (token, expiresIn, refreshToken) => dispatch => {
-  dispatch(authSetToken(token));
   const now = new Date();
   const expiryDate = now.getTime() + expiresIn * 1000;
+
+  dispatch(authSetToken(token, expiryDate));
 
   AsyncStorage.setItem('ap:auth:token', token);
   AsyncStorage.setItem('ap:auth:expiryDate', expiryDate.toString());
   AsyncStorage.setItem('ap:auth:refreshToken', refreshToken);
 };
 
-export const authSetToken = token => {
+export const authSetToken = (token, expiryDate) => {
   return {
     type: AUTH_SET_TOKEN,
-    token
+    token,
+    expiryDate
   };
 };
 
@@ -70,8 +72,9 @@ export const authSetToken = token => {
 export const authGetToken = () => (dispatch, getState) => {
   const promise = new Promise((resolve, reject) => {
     const token = getState().auth.token;
+    const expiryDate = getState().auth.expiryDate;
     // if there's no token in our reducer
-    if (!token) {
+    if (!token || new Date(expiryDate) <= new Date()) {
       let fetchedToken;
 
       // try and get it from AsyncStorage a.k.a locastorage
