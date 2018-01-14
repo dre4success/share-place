@@ -19,13 +19,13 @@ exports.storeImage = functions.https.onRequest((req, res) => {
   cors(req, res, () => {
     if (
       !req.headers.authorization ||
-      !req.body.authorization.startsWith('Bearer')
+      !req.headers.authorization.startsWith('Bearer ')
     ) {
       console.log('No token present');
       res.status(403).json({ error: 'Unauthorized' });
       return;
     }
-    let idToken = req.headers.authorization.split('Bearer')[1];
+    let idToken = req.headers.authorization.split('Bearer ')[1];
     admin
       .auth()
       .verifyIdToken(idToken)
