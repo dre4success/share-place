@@ -1,12 +1,16 @@
-import { SET_PLACES, REMOVE_PLACE, PLACE_ADDED, START_ADD_PLACE } from './actionTypes';
+import {
+  SET_PLACES,
+  REMOVE_PLACE,
+  PLACE_ADDED,
+  START_ADD_PLACE
+} from './actionTypes';
 import { uiStartLoading, uiStopLoading, authGetToken } from './index';
-
 
 export const startAddPlace = () => {
   return {
     type: START_ADD_PLACE
-  }
-}
+  };
+};
 
 export const addPlace = (placeName, location, image) => dispatch => {
   let authToken;
@@ -25,7 +29,7 @@ export const addPlace = (placeName, location, image) => dispatch => {
             image: image.base64
           }),
           headers: {
-            'Authorization': 'Bearer ' + authToken
+            Authorization: 'Bearer ' + authToken
           }
         }
       );
@@ -34,7 +38,13 @@ export const addPlace = (placeName, location, image) => dispatch => {
       console.log(err);
       dispatch(uiStopLoading());
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error();
+      }
+    })
     .then(parsedRes => {
       const placeData = {
         name: placeName,
@@ -42,19 +52,26 @@ export const addPlace = (placeName, location, image) => dispatch => {
         image: parsedRes.imageUrl
       };
       return fetch(
-        'https://places-awesome-1515590111232.firebaseio.com/places.json?auth=' + authToken,
+        'https://places-awesome-1515590111232.firebaseio.com/places.json?auth=' +
+          authToken,
         {
           method: 'POST',
           body: JSON.stringify(placeData)
         }
-      )
+      );
     })
 
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error();
+      }
+    })
     .then(parsedRes => {
       console.log(parsedRes);
       dispatch(uiStopLoading());
-      dispatch(placeAdded()); 
+      dispatch(placeAdded());
     })
     .catch(err => {
       console.log(err);
@@ -66,8 +83,8 @@ export const addPlace = (placeName, location, image) => dispatch => {
 export const placeAdded = () => {
   return {
     type: PLACE_ADDED
-  }
-}
+  };
+};
 
 export const setPlaces = places => {
   return {
@@ -87,7 +104,13 @@ export const getPlaces = () => dispatch => {
     .catch(() => {
       alert('No valid token found');
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error();
+      }
+    })
     .then(parsedRes => {
       const places = [];
       for (let key in parsedRes) {
@@ -130,7 +153,13 @@ export const deletePlace = key => dispatch => {
         }
       );
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error();
+      }
+    })
     .then(parsedRes => {
       console.log('Done!');
     })
@@ -139,5 +168,3 @@ export const deletePlace = key => dispatch => {
       console.log(err);
     });
 };
-
-

@@ -22,7 +22,13 @@ export const tryAuth = (authData, authMode) => dispatch => {
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error();
+      }
+    })
     .then(parsedRes => {
       dispatch(uiStopLoading());
       if (!parsedRes.idToken) {
@@ -32,13 +38,7 @@ export const tryAuth = (authData, authMode) => dispatch => {
           alert('Authentication failed, retry');
         }
       } else {
-        dispatch(
-          authStoreToken(
-            parsedRes.idToken,
-            parsedRes.expiresIn,
-            parsedRes.refreshToken
-          )
-        );
+        dispatch(authStoreToken(parsedRes.idToken, parsedRes.expiresIn, parsedRes.refreshToken));
         startTabs();
       }
     })
@@ -115,21 +115,22 @@ export const authGetToken = () => (dispatch, getState) => {
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
               },
-              body: 'grant_type=refresh_token&refresh_token=' + refreshToken
+              body:
+                'grant_type=refresh_token&refresh_token=' + refreshToken
             }
           );
         })
-        .then(res => res.json())
+        .then(res => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw new Error();
+          }
+        })
         .then(parsedRes => {
           if (parsedRes.id_token) {
             console.log('Refresh token worked');
-            dispatch(
-              authStoreToken(
-                parsedRes.id_token,
-                parsedRes.expires_in,
-                parsedRes.refresh_token
-              )
-            );
+            dispatch(authStoreToken(parsedRes.id_token, parsedRes.expires_in, parsedRes.refresh_token));
             return parsedRes.id_token;
           } else {
             dispatch(authClearStorage());
