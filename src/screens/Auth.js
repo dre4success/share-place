@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-
+ 
 import { DefaultInput } from '../components/UI/DefaultInput';
 import { HeadingText } from '../components/UI/HeadingText';
 import { MainText } from '../components/UI/MainText';
@@ -74,12 +74,12 @@ class AuthScreen extends Component {
     }));
   };
 
-  loginHandler = () => {
+  onAuthHandler = () => {
     const authData = {
       email: this.state.controls.email.value,
       password: this.state.controls.password.value
     };
-    this.props.onLogin(authData);
+    this.props.onAuth(authData, this.state.authMode);
     
   };
 
@@ -133,7 +133,7 @@ class AuthScreen extends Component {
     let submitButton = (
       <ButtonWithBackground
         color="#29aaf4"
-        onPress={this.loginHandler}
+        onPress={this.onAuthHandler}
         disabled={
           (!this.state.controls.confirmPassword.valid &&
             this.state.authMode === 'signup') ||
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: authData => dispatch(tryAuth(authData))
+    onAuth: (authData, authMode) => dispatch(tryAuth(authData, authMode))
   };
 };
 
